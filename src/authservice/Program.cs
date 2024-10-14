@@ -1,13 +1,20 @@
+using authservice.Infrastructures;
+using authservice.Interfaces;
+using authservice.Services;
+using Newtonsoft.Json.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<ISettingsService, SettingsService>();
+builder.Services.AddTransient<IAllegroService, AllegroService>();
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionHandlingMiddleware>();   
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -16,29 +23,30 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/verification", async (ISettingsService settingService, IAllegroService allegroService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    await allegroService.GetDeviceCode(settingService);
+    await settingService.SetAccessTokenExpiredDate(null);
+    return $"Go to page and authorize device code. Then go to endpoint /auth {settingService.GetVerificationURIComplete()}";
 })
-.WithName("GetWeatherForecast")
+.WithName("Verification")
+.WithDescription("Get DeviceCode using ClientId and UserSecret from appsettings.json")
 .WithOpenApi();
+
+app.MapGet("/auth", async (ISettingsService settingService, IAllegroService allegroService) =>
+{
+    if (!String.IsNullOrEmpty(settingService.GetAccessTokenExpiredDate().ToString()) && settingService.GetAccessTokenExpiredDate() < DateTime.Now.AddMinutes(15))
+    {
+        await allegroService.SetAccessTokenByRefreshToken(settingService);
+    }
+    else if (String.IsNullOrEmpty(settingService.GetAccessTokenExpiredDate().ToString()))
+        await allegroService.GetAccessToken(settingService);
+    return settingService.GetAccessToken();
+})
+.WithName("Authorization")
+.WithDescription("Get DeviceCode using ClientId and UserSecret from appsettings.json");
+
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+
