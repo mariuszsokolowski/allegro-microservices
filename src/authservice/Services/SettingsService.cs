@@ -40,6 +40,8 @@ namespace authservice.Services
         public string GetBaseUrl() => _allegroSetttings.BaseUrl;
         public string GetClientId() => _allegroSetttings.ClientId;
         public string GetClientSecret() => _allegroSetttings.ClientSecret;
+        public DateTime? GetAccessTokenExpiredDate() => _allegroSetttings.AccessTokenExpiredDate;
+
 
         public string GetDeviceCode() => _allegroSetttings.DeviceCode;
 
@@ -47,59 +49,60 @@ namespace authservice.Services
 
         public string GetVerificationURIComplete() => _allegroSetttings.VerificationURIComplete;
 
-        public void SetAccessToken(string accessToken)
+        public async Task SetAccessToken(string accessToken)
         {
-            Save("Allegro.AccessToken", accessToken);
+            await SaveAsync("Allegro.AccessToken", accessToken);
             _allegroSetttings.AccessToken = accessToken;
         }
 
-        public void SetAccessTokenExpiredDate(DateTime accessTokenExpiredDate)
+        public async Task SetAccessTokenExpiredDate(DateTime? accessTokenExpiredDate)
         {
-            Save("Allegro.AccessTokenExpiredDate", accessTokenExpiredDate.ToString());
+            await SaveAsync("Allegro.AccessTokenExpiredDate", accessTokenExpiredDate?.ToString() ?? "");
             _allegroSetttings.AccessTokenExpiredDate = accessTokenExpiredDate;
         }
 
-        public void SetDeviceCode(string deviceCode)
+        public async Task SetDeviceCode(string deviceCode)
         {
-            Save("Allegro.DeviceCode", deviceCode);
+            await SaveAsync("Allegro.DeviceCode", deviceCode);
             _allegroSetttings.DeviceCode = deviceCode;
         }
 
-        public void SetRefreshToken(string refreshToken)
+        public async Task SetRefreshToken(string refreshToken)
         {
-            Save("Allegro.RefreshToken", refreshToken);
+            await SaveAsync("Allegro.RefreshToken", refreshToken);
             _allegroSetttings.RefreshToken = refreshToken;
         }
 
-        public void SetVerificationURIComplete(string verificationURIComplete)
+        public async Task SetVerificationURIComplete(string verificationURIComplete)
         {
-            Save("Allegro.VerificationURIComplete", verificationURIComplete);
+            await SaveAsync("Allegro.VerificationURIComplete", verificationURIComplete);
             _allegroSetttings.VerificationURIComplete = verificationURIComplete;
         }
 
        /// <summary>
-       /// Save new object in appsettings.json
+       /// Save new value to object in appsettings.json
        /// </summary>
        /// <param name="key"></param>
        /// <param name="value"></param>
-        private void Save(string key, string value)
+        private async Task SaveAsync(string key, string value)
         {
-            var jsonObject = GetJson();
+            var jsonObject = await GetJson();
             var selectToken = jsonObject.SelectToken(key);
 
             if (selectToken != null)
             {
                 selectToken.Replace(JToken.FromObject(value));
-                File.WriteAllText($"{_appsettingsPath}", jsonObject.ToString());
+                await File.WriteAllTextAsync($"{_appsettingsPath}", jsonObject.ToString());
             }
         }
         /// <summary>
         /// Get appsettings.json
         /// </summary>
         /// <returns></returns>
-        private JObject GetJson()
+        private async Task<JObject> GetJson()
         {
-            return JObject.Parse(File.ReadAllText($"{_appsettingsPath}"));
+            var json = await File.ReadAllTextAsync($"{_appsettingsPath}");
+            return JObject.Parse(json);
         }
     }
 }

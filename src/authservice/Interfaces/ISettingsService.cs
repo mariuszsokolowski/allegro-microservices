@@ -37,30 +37,35 @@
         /// </summary>
         /// <returns></returns>
         string GetVerificationURIComplete();
+        /// <summary>
+        /// Get AccessTokenExpiredDate object from appsettings.json
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? GetAccessTokenExpiredDate();
 
         /// <summary>
         /// Set VerificationURIComplete object in appsettings
         /// </summary>
-        void SetVerificationURIComplete(string verificationURIComplete);
+        Task SetVerificationURIComplete(string verificationURIComplete);
         /// <summary>
         /// Set DeviceCode object in appsettings.json
         /// </summary>
-        void SetDeviceCode(string deviceCode);
+        Task SetDeviceCode(string deviceCode);
         /// <summary>
         /// Set AccessToken object in appsettings.json
         /// </summary>
         /// <param name="accessToken"></param>
-        void SetAccessToken(string accessToken);
+        Task SetAccessToken(string accessToken);
         /// <summary>
         /// Set RefreshToken object in appsettings.json
         /// </summary>
         /// <param name="accessToken"></param>
-        void SetRefreshToken(string refreshToken);
+        Task SetRefreshToken(string refreshToken);
         /// <summary>
         /// Set AccessToken object exiried date in appsettings.json
         /// </summary>
         /// <param name="accessToken"></param>
-        void SetAccessTokenExpiredDate(DateTime accessTokenExpiredDate);
+        Task SetAccessTokenExpiredDate(DateTime? accessTokenExpiredDate);
 
     }
 }
