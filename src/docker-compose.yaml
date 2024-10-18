@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  authservice:
+    image: authservice
+    build:
+      context: .
+      dockerfile: authservice/Dockerfile
+    ports:
+      - "7283:7283"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+
+  productservice:
+    image: productservice
+    build:
+      context: .
+      dockerfile: productservice/Dockerfile
+    ports:
+      - "7099:7099"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+
+  orderservice:
+    image: orderservice
+    build:
+      context: .
+      dockerfile: orderservice/Dockerfile
+    ports:
+      - "7155:7155"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
