@@ -20,9 +20,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-
 
 app.MapPost("/get", async (IHttpClientFactory httpClientFactory, IConfiguration config, [FromBody] OrderRangeDTO request) =>
 {
