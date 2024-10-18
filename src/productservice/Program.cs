@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
 
 app.MapGet("/get", async (IHttpClientFactory httpClientFactory, IConfiguration config, int categoryId) =>
 {
