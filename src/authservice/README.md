@@ -13,11 +13,19 @@ cd src\authservice
 notepad .\appsettings.json
 ```
 
-2. Run the application:
+2. Run the application
+### Run manually:
 ```cmd
 cd src\authservice
 dotnet run
 ```
+### 🐳 Run with Docker:
+```cmd
+cd src\authservice
+docker build -t authservice .
+docker run -d -p 7283:7283 -e ASPNETCORE_URLS="http://*:7283" authservice authservice
+```
+
 3. Authorize the device code on the Allegro authorization page:
 - To make an HTTP GET request to the /verification endpoint, use the following curl command:
 
