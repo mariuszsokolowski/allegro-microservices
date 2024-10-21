@@ -1,5 +1,5 @@
-# 📦 orderservice
-The microservice is responsible for managing orders with Allegro's API.
+# 📦 productservice
+The microservice is responsible for products with Allegro's API.
 
 ## :mechanical_leg: Installation
 ### :pushpin: Prerequisites
@@ -9,19 +9,19 @@ The microservice is responsible for managing orders with Allegro's API.
 ### 🔧 Usage
 1. Update appsetting.json (**BaseUrl**) keys if authservice is changed:
 ```cmd
-cd src\orderservice
+cd src\productservice
 notepad .\appsettings.json
 ```
 
 2. Run the application
 ### Run manually:
 ```cmd
-cd src\orderservice
+cd src\productservice
 dotnet run
 ```
 ### 🐳 Run with Docker:
 ```cmd
-cd src\orderservice
-docker build -t orderservice .
-docker run -d -p 7155:7155 -e ASPNETCORE_URLS="http://*:7155" orderservice orderservice
+cd src\productservice
+docker build -t productservice .
+docker run -d -p 7099:7099 -e ASPNETCORE_URLS="http://*:7155" orderservice orderservice
 ```
