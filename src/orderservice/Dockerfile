@@ -3,11 +3,19 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src  
 
 # Restore dependencies
+<<<<<<< Updated upstream
 COPY ["orderservice/orderservice.csproj", "orderservice/"]
 RUN dotnet restore "orderservice/orderservice.csproj"
 
 # Build
 COPY orderservice/. ./orderservice
+=======
+COPY ["orderservice.csproj", "./"]
+RUN dotnet restore "orderservice.csproj"
+
+# Build
+COPY . ./orderservice
+>>>>>>> Stashed changes
 WORKDIR /src/orderservice
 RUN dotnet build "orderservice.csproj" -c Release -o /app/build
 
