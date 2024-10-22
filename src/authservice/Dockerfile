@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src  
 
 # Restore dependencies
-COPY ["authservice/authservice.csproj", "authservice/"]
-RUN dotnet restore "authservice/authservice.csproj"
+COPY authservice.csproj ./
+RUN dotnet restore "authservice.csproj"
 
 # Build
-COPY authservice/. ./authservice
+COPY . ./authservice 
 WORKDIR /src/authservice
 RUN dotnet build "authservice.csproj" -c Release -o /app/build
 
