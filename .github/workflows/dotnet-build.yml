@@ -1,4 +1,4 @@
-name: Build microservices manually
+name: Dotnet build CI
 
 on:
   push:
