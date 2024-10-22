@@ -21,8 +21,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.MapGet("/verification", async (ISettingsService settingService, IAllegroService allegroService) =>
 {
     await allegroService.GetDeviceCode(settingService);

@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  authservice:
+    image: authservice
+    build:
+<<<<<<< Updated upstream
+      context: .
+      dockerfile: authservice/Dockerfile
+=======
+      context: ./authservice
+      dockerfile: Dockerfile
+>>>>>>> Stashed changes
+    ports:
+      - "7283:7283"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+
+  productservice:
+    image: productservice
+    build:
+<<<<<<< Updated upstream
+      context: .
+      dockerfile: productservice/Dockerfile
+=======
+      context: ./productservice
+      dockerfile: Dockerfile
+>>>>>>> Stashed changes
+    ports:
+      - "7099:7099"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+
+  orderservice:
+    image: orderservice
+    build:
+<<<<<<< Updated upstream
+      context: .
+      dockerfile: orderservice/Dockerfile
+=======
+      context: ./orderservice
+      dockerfile: Dockerfile
+>>>>>>> Stashed changes
+    ports:
+      - "7155:7155"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
