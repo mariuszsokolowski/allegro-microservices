@@ -4,13 +4,8 @@ services:
   authservice:
     image: authservice
     build:
-<<<<<<< Updated upstream
-      context: .
-      dockerfile: authservice/Dockerfile
-=======
       context: ./authservice
       dockerfile: Dockerfile
->>>>>>> Stashed changes
     ports:
       - "7283:7283"
     environment:
@@ -21,13 +16,8 @@ services:
   productservice:
     image: productservice
     build:
-<<<<<<< Updated upstream
-      context: .
-      dockerfile: productservice/Dockerfile
-=======
       context: ./productservice
       dockerfile: Dockerfile
->>>>>>> Stashed changes
     ports:
       - "7099:7099"
     environment:
@@ -38,13 +28,8 @@ services:
   orderservice:
     image: orderservice
     build:
-<<<<<<< Updated upstream
-      context: .
-      dockerfile: orderservice/Dockerfile
-=======
       context: ./orderservice
       dockerfile: Dockerfile
->>>>>>> Stashed changes
     ports:
       - "7155:7155"
     environment:
