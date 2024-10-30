@@ -1,0 +1,28 @@
+name: Docker build CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build authservice
+      run: |
+       cd src/authservice
+       docker build -t authservice . 
+    - name: Build productservice
+      run: |
+       cd src/productservice
+       docker build -t productservice . 
+    - name: Build orderservice
+      run: |
+       cd src/orderservice
+       docker build -t orderservice . 
