@@ -30,7 +30,7 @@ namespace authservice.Services
                 ClientId = _configuration.GetValueOrDefault("Allegro:ClientId"),
                 ClientSecret = _configuration.GetValueOrDefault("Allegro:ClientSecret"),
                 DeviceCode = _configuration.GetValueOrDefault("Allegro:DeviceCode"),
-                AccessTokenExpiredDate = !String.IsNullOrEmpty(_configuration.GetValueOrDefault("Allegro:AccessTokenExpiredDate")) ? Convert.ToDateTime(_configuration["Allegro:AccessTokenExpiredDate"]) : null,
+                AccessTokenExpiredDate = !String.IsNullOrEmpty(_configuration.GetValueOrDefault("Allegro:AccessTokenExpiredDate")) ? DateTime.ParseExact(_configuration["Allegro:AccessTokenExpiredDate"], "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture) : null,
                 AccessToken = _configuration.GetValueOrDefault("Allegro:AccessToken"),
                 RefreshToken = _configuration.GetValueOrDefault("Allegro:RefreshToken"),
                 VerificationURIComplete = _configuration.GetValueOrDefault("Allegro:VerificationURIComplete")
