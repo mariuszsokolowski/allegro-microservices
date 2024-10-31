@@ -33,3 +33,13 @@ jobs:
       run: |
         cd src/orderservice
         dotnet build --configuration Release
+
+    - name: Build authservice.test
+      run: |
+        cd tests/authservice.test
+        dotnet build --configuration Release
+
+    - name: Run authservice tests
+      run: |
+        cd tests/authservice.test
+        dotnet test --configuration Release --no-build --verbosity normal
