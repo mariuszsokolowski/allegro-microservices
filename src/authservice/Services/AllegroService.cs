@@ -7,6 +7,11 @@ namespace authservice.Services
 {
     public class AllegroService : IAllegroService
     {
+        private readonly HttpClient _httpClient;
+        public AllegroService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
         public async Task<string> GetAccessToken(ISettingsService settingService)
         {
             string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
@@ -17,13 +22,11 @@ namespace authservice.Services
     new KeyValuePair<string, string>("Content-Type", "application/x-www-form-urlencoded"),
 };
 
-            using (var _client = new HttpClient())
-            {
-                _client.DefaultRequestHeaders.Add("Authorization", $"Basic {encoded}");
-                var response = await _client.PostAsync($"{settingService.GetBaseUrl()}auth/oauth/token?grant_type=urn:ietf:params:oauth:grant-type:device_code&device_code={settingService.GetDeviceCode()}", new FormUrlEncodedContent(data));
-                var contents = await response.Content.ReadAsStringAsync();
-                json = JObject.Parse(contents);
-            }
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {encoded}");
+            var response = await _httpClient.PostAsync($"{settingService.GetBaseUrl()}auth/oauth/token?grant_type=urn:ietf:params:oauth:grant-type:device_code&device_code={settingService.GetDeviceCode()}", new FormUrlEncodedContent(data));
+            var contents = await response.Content.ReadAsStringAsync();
+            json = JObject.Parse(contents);
             await settingService.SetAccessToken(json["access_token"]?.ToString() ?? "");
             await settingService.SetRefreshToken(json["refresh_token"]?.ToString() ?? "");
             await settingService.SetAccessTokenExpiredDate(DateTime.Now.AddSeconds(double.Parse(json["expires_in"]?.ToString() ?? "0") - 1));
@@ -41,13 +44,11 @@ namespace authservice.Services
                                 new KeyValuePair<string, string>("Content-Type", "application/x-www-form-urlencoded"),
                             };
 
-            using (var _client = new HttpClient())
-            {
-                _client.DefaultRequestHeaders.Add("Authorization", $"Basic {encoded}");
-                var response = await _client.PostAsync($"{baseURL}auth/oauth/device?client_id={settingService.GetClientId()}", new FormUrlEncodedContent(data));
-                var contents = await response.Content.ReadAsStringAsync();
-                json = JObject.Parse(contents);
-            }
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {encoded}");
+            var response = await _httpClient.PostAsync($"{baseURL}auth/oauth/device?client_id={settingService.GetClientId()}", new FormUrlEncodedContent(data));
+            var contents = await response.Content.ReadAsStringAsync();
+            json = JObject.Parse(contents);
             await settingService.SetVerificationURIComplete(CheckJsonKeyValue(json, "verification_uri_complete"));
             await settingService.SetDeviceCode(CheckJsonKeyValue(json, "device_code"));
         }
@@ -60,21 +61,19 @@ namespace authservice.Services
             var data = new[]
                           { new KeyValuePair<string, string>("Content-Type", "application/x-www-form-urlencoded"),};
 
-            using (var _client = new HttpClient())
-            {
-                _client.DefaultRequestHeaders.Add("Authorization", $"Basic {encoded}");
-                var response = await _client.PostAsync($"{settingService.GetBaseUrl()}auth/oauth/token?grant_type=refresh_token&refresh_token={settingService.GetRefreshToken()}", new FormUrlEncodedContent(data));
+
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {encoded}");
+            var response = await _httpClient.PostAsync($"{settingService.GetBaseUrl()}auth/oauth/token?grant_type=refresh_token&refresh_token={settingService.GetRefreshToken()}", new FormUrlEncodedContent(data));
 
 
-                var contents = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Request failed with status code {response.StatusCode}. Response: {contents}");
+            var contents = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException($"Request failed with status code {response.StatusCode}. Response: {contents}");
 
-                json = JObject.Parse(contents);
-            }
+            json = JObject.Parse(contents);
             await settingService.SetRefreshToken(CheckJsonKeyValue(json, "refresh_token"));
             await settingService.SetAccessToken(CheckJsonKeyValue(json, "access_token"));
-            if(!String.IsNullOrEmpty(CheckJsonKeyValue(json, "expires_in")))
+            if (!String.IsNullOrEmpty(CheckJsonKeyValue(json, "expires_in")))
                 await settingService.SetAccessTokenExpiredDate(DateTime.Now.AddSeconds(double.Parse(CheckJsonKeyValue(json, "expires_in")) - 1));
             return CheckJsonKeyValue(json, "access_token");
         }

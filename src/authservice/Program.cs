@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ISettingsService, SettingsService>();
 builder.Services.AddTransient<IAllegroService, AllegroService>();
+builder.Services.AddHttpClient<IAllegroService, AllegroService>();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();   
