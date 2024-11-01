@@ -1,4 +1,5 @@
-﻿using authservice.Services;
+﻿using authservice.Interfaces;
+using authservice.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace authservice.test.Services
 {
-    public class SettingsServiceTest
+    public class SettingsServiceTests
     {
 
         [Fact]
@@ -78,9 +79,9 @@ namespace authservice.test.Services
         }
 
         #region Arrange
-        private readonly SettingsService _settingsService;
+        private readonly ISettingsService _settingsService;
         private readonly DateTime _configurationDate;
-        public SettingsServiceTest()
+        public SettingsServiceTests()
         {
             _configurationDate = DateTime.ParseExact("18.10.2024 02:01:42", "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             var inMemorySettings = new Dictionary<string, string> {
