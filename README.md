@@ -28,3 +28,4 @@ This will build the images and start all services.
 - [x] **Docker Integration**: Plan to add Docker support for each microservice
 - [ ] **Kubernetes Deployment**: Future implementation of Kubernetes for orchestration and management of containerized applications
 - [ ] **CI/CD Pipeline**: Implement a Continuous Integration and Continuous Deployment (CI/CD) pipeline to automate testing and deployment processes for the project
+- [ ] **RabbitMQ Integration**: Plan to add RabbitMQ for asynchronous inter-microservice communication to improve messaging
