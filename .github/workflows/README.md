@@ -3,7 +3,7 @@
 This page describes the CI/CD workflows for allegro-microservices using [GitHub Actions](https://github.com/mariuszsokolowski/allegro-microservices/actions).
 
 ## Workflow
-### 1. 🔨 `dontet-build`
+### 1. 🔨 `dotnet-build`
 
 This workflow is responsible for manually building the .NET microservices (`authservice`, `productservice`, and `orderservice`) on each push or pull request to the `master` branch. 
 
