@@ -47,5 +47,6 @@ app.MapGet("/auth", async (ISettingsService settingService, IAllegroService alle
 
 
 app.Run();
-
+//For testing
+public partial class Program { }
 
