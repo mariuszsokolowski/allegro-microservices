@@ -15,6 +15,7 @@ This workflow is responsible for manually building the .NET microservices (`auth
   1. Checks out the repository code using the `actions/checkout@v2`.
   2. Sets up the .NET SDK version `8.x` using the `actions/setup-dotnet@v1`.
   3. Builds each microservice (`authservice`, `productservice`, `orderservice`) individually by navigating to their respective directories and running `dotnet build` in Release configuration.
+  4. Build and run the tests in Release configuration
 
 #### Workflow File: `dotnet-build.yml`
 
