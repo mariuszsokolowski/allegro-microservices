@@ -69,7 +69,7 @@ namespace authservice.Services
 
             var contents = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new FailedRefreshTokenException(response.StatusCode,contents);
+                throw new FailedRefreshTokenRequestException(response.StatusCode,contents);
 
             json = JObject.Parse(contents);
             await settingService.SetRefreshToken(CheckJsonKeyValue(json, "refresh_token"));
