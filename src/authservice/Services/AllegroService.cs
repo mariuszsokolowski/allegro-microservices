@@ -1,4 +1,5 @@
-﻿using authservice.Interfaces;
+﻿using authservice.Exceptions;
+using authservice.Interfaces;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -68,7 +69,7 @@ namespace authservice.Services
 
             var contents = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new HttpRequestException($"Request failed with status code {response.StatusCode}. Response: {contents}");
+                throw new FailedRefreshTokenRequestException(response.StatusCode,contents);
 
             json = JObject.Parse(contents);
             await settingService.SetRefreshToken(CheckJsonKeyValue(json, "refresh_token"));
