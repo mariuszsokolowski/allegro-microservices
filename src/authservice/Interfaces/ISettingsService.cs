@@ -1,5 +1,9 @@
-﻿namespace authservice.Interfaces
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("authservice.test")]
+namespace authservice.Interfaces
 {
+
     internal interface ISettingsService
     {
         /// <summary>

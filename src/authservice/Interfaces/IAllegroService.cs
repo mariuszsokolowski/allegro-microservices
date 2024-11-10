@@ -1,4 +1,10 @@
-﻿namespace authservice.Interfaces
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("authservice.test")]
+//accessibility for  MOQ
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
+namespace authservice.Interfaces
 {
     internal interface IAllegroService
     {
