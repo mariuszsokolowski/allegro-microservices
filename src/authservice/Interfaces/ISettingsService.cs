@@ -1,6 +1,6 @@
 ﻿namespace authservice.Interfaces
 {
-    public interface ISettingsService
+    internal interface ISettingsService
     {
         /// <summary>
         /// Get ClientId object from appsettings.json

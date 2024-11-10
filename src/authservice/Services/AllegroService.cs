@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace authservice.Services
 {
-    public class AllegroService : IAllegroService
+    internal class AllegroService : IAllegroService
     {
         private readonly HttpClient _httpClient;
         public AllegroService(HttpClient httpClient)
