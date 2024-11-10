@@ -6,7 +6,7 @@ using authservice.Extensions;
 
 namespace authservice.Services
 {
-    public class SettingsService : ISettingsService
+    internal class SettingsService : ISettingsService
     {
         private readonly AllegroSettingsModel _allegroSetttings;
         private readonly IConfiguration _configuration;

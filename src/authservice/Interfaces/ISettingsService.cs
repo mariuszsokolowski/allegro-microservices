@@ -1,6 +1,10 @@
-﻿namespace authservice.Interfaces
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("authservice.test")]
+namespace authservice.Interfaces
 {
-    public interface ISettingsService
+
+    internal interface ISettingsService
     {
         /// <summary>
         /// Get ClientId object from appsettings.json

@@ -1,6 +1,12 @@
-﻿namespace authservice.Interfaces
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("authservice.test")]
+//accessibility for  MOQ
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
+namespace authservice.Interfaces
 {
-    public interface IAllegroService
+    internal interface IAllegroService
     {
         Task GetDeviceCode(ISettingsService settingService);
         Task<string> SetAccessTokenByRefreshToken(ISettingsService settingService);

@@ -4,7 +4,7 @@ using System.Text.Json;
 namespace authservice.Infrastructures
 {
 
-    public class ExceptionHandlingMiddleware
+    internal sealed class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
         public ExceptionHandlingMiddleware(RequestDelegate next)
